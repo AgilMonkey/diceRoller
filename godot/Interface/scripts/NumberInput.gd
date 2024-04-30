@@ -8,14 +8,14 @@ func _input(event) -> void:
 		release_focus()
 		return
 
-	if event is InputEventKey and event.scancode == KEY_ESCAPE:
+	if event is InputEventKey and event.keycode == KEY_ESCAPE:
 		release_focus()
 
 	if event is InputEventMouseButton:
 		if event.pressed:
-			if event.button_index == BUTTON_WHEEL_UP:
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				modify_number(-1)
-			elif event.button_index == BUTTON_WHEEL_DOWN:
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				modify_number(1)
 
 
@@ -41,7 +41,7 @@ func get_number() -> int:
 
 
 func _on_NumberInput_text_changed(new_text: String) -> void:
-	var old_position := caret_position
+	var old_position := caret_column
 	set_text(str(int(new_text)) if new_text and int(new_text) else '')
-	caret_position = old_position
+	caret_column = old_position
 

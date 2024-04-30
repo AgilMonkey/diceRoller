@@ -1,14 +1,14 @@
-tool
+@tool
 extends TextureButton
 # script simulates style colors normally set by a theme
 # which are not available for texture buttons
 # only works (as expected) with completely white textures
 
-export var icon_color_normal: Color
-export var icon_color_disabled: Color
-export var icon_color_focus: Color
-export var icon_color_hover: Color
-export var icon_color_pressed: Color
+@export var icon_color_normal: Color
+@export var icon_color_disabled: Color
+@export var icon_color_focus: Color
+@export var icon_color_hover: Color
+@export var icon_color_pressed: Color
 
 var press_attempt := false
 var pressing_inside := false
@@ -21,10 +21,10 @@ func _ready() -> void:
 	if disabled:
 		self_modulate = icon_color_disabled
 	# warning-ignore-all:return_value_discarded
-	connect('button_down', self, '_on_button_down')
-	connect('button_up', self, '_on_button_up')
-	connect('mouse_entered', self, '_on_mouse_entered')
-	connect('mouse_exited', self, '_on_mouse_exited')
+	connect('button_down', Callable(self, '_on_button_down'))
+	connect('button_up', Callable(self, '_on_button_up'))
+	connect('mouse_entered', Callable(self, '_on_mouse_entered'))
+	connect('mouse_exited', Callable(self, '_on_mouse_exited'))
 
 
 func _process(_delta: float) -> void:

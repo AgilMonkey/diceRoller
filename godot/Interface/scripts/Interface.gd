@@ -1,7 +1,7 @@
 extends Control
 
-onready var dice_types: Array = $'/root/main/DiceManager'.dice_type_strings
-var selected_type: String = 'd6' setget set_selected_type
+@onready var dice_types: Array = $'/root/main/DiceManager'.dice_type_strings
+var selected_type: String = 'd6': set = set_selected_type
 var max_addable : Dictionary
 
 
@@ -18,16 +18,16 @@ signal lock_valid
 func _ready() -> void:
 	SettingsData.listen(self, "_on_dice_setting_changed")
 	for type in dice_types:
-		var select := preload('res://Interface/DiceSelect.tscn').instance()
+		var select := preload('res://Interface/DiceSelect.tscn').instantiate()
 		select.name = type
 		select.type = type
 		# warning-ignore:return_value_discarded
-		select.connect('add_dice', self, '_on_DiceSelectAdd_button_down')
+		select.connect('add_dice', Callable(self, '_on_DiceSelectAdd_button_down'))
 		# warning-ignore:return_value_discarded
-		select.connect('remove_dice', self, '_on_DiceSelectRemove_button_down')
+		select.connect('remove_dice', Callable(self, '_on_DiceSelectRemove_button_down'))
 		$Layout/Interactions/DiceSelects.add_child(select)
 	apply_settings_recursive(self)
-	SettingsData.connect("settings_saved", self, "toast_message", ["Saved!", 0, 2])
+	SettingsData.connect("settings_saved", Callable(self, "toast_message").bind("Saved!", 0, 2))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -40,7 +40,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func toast_message(message: String, delay: float = 0, lifetime: float = 0) -> void:
-	var toast: Toast = preload("res://Interface/Toast.tscn").instance()
+	var toast: Toast = preload("res://Interface/Toast.tscn").instantiate()
 	toast.message = message
 	toast.delay = delay
 	toast.lifetime = lifetime
@@ -78,7 +78,7 @@ func add_multiple(type: String) -> void:
 	while max_addable[type] > 0:
 		max_addable[type] -= 1
 		emit_signal('add_die', type)
-		yield(get_tree().create_timer(.0003), 'timeout')
+		await get_tree().create_timer(.0003).timeout
 
 
 func _on_dice_setting_changed(setting: String, value):

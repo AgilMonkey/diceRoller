@@ -1,7 +1,7 @@
-tool
+@tool
 extends HBoxContainer
 
-export var shortcut: String setget set_shortcut
+@export var shortcut: String: set = set_shortcut
 
 var default_color := Color('#8d697a')
 var highlight_color := Color('#ffecd6')
@@ -52,19 +52,19 @@ func add_input_symbol(input: String, label: String = '') -> void:
 		return
 	match input:
 		'lmb':
-			var mouse := mouse_input.instance()
+			var mouse := mouse_input.instantiate()
 			mouse.default_color = default_color
 			mouse.highlight_color = highlight_color
 			add_child(mouse)
 			mouse.left = true
 		'rmb':
-			var mouse := mouse_input.instance()
+			var mouse := mouse_input.instantiate()
 			mouse.default_color = default_color
 			mouse.highlight_color = highlight_color
 			add_child(mouse)
 			mouse.right = true
 		'key':
-			var key := key_input.instance()
+			var key := key_input.instantiate()
 			key.text = label
 			add_child(key)
 

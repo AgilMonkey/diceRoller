@@ -1,5 +1,5 @@
-tool
-extends Viewport
+@tool
+extends SubViewport
 
 
 func _ready() -> void:

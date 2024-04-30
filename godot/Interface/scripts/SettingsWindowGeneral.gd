@@ -5,9 +5,9 @@ func apply_settings():
 	for setting in SettingsData.settings:
 		match setting:
 			"invert_scroll":
-				$VBox/Grid/InvertScroll.pressed = SettingsData.get_setting(setting)
+				$VBox/Grid/InvertScroll.button_pressed = SettingsData.get_setting(setting)
 			"invert_resize":
-				$VBox/Grid/InvertResize.pressed = SettingsData.get_setting(setting)
+				$VBox/Grid/InvertResize.button_pressed = SettingsData.get_setting(setting)
 			"gravity":
 				$VBox/HBoxContainer/Gravity.value = SettingsData.get_setting(setting, 10)
 

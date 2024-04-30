@@ -5,20 +5,20 @@ class_name WindowContainer
 func _ready() -> void:
 	for window in get_children():
 		if window is Window:
-			window.connect('moved', self, '_on_window_moved')
-	connect("gui_input", self, "_on_gui_input")
+			window.connect('moved', Callable(self, '_on_window_moved'))
+	connect("gui_input", Callable(self, "_on_gui_input"))
 
 	if not visible:
 		set_pause(self, true)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.scancode == KEY_ESCAPE:
+	if event is InputEventKey and event.keycode == KEY_ESCAPE:
 		hide()
 
 
 func _on_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		hide()
 
 
@@ -40,7 +40,7 @@ func hide() -> void:
 
 
 func set_pause(node: Node, pause: bool) -> void:
-	if node.pause_mode == PAUSE_MODE_INHERIT or node.pause_mode == PAUSE_MODE_STOP:
+	if node.process_mode == PROCESS_MODE_INHERIT or node.process_mode == PROCESS_MODE_PAUSABLE:
 		node.set_process(!pause)
 		node.set_physics_process(!pause)
 		node.set_process_input(!pause)

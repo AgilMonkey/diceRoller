@@ -8,7 +8,7 @@ func _input(event) -> void:
 		release_focus()
 		return
 
-	if event is InputEventKey and event.scancode == KEY_ESCAPE:
+	if event is InputEventKey and event.keycode == KEY_ESCAPE:
 		release_focus()
 
 

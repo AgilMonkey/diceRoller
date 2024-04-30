@@ -1,10 +1,10 @@
-tool
+@tool
 extends AspectRatioContainer
 
-export var left := false setget set_left_clicked
-export var right := false setget set_right_clicked
-export var default_color := Color.darkgray
-export var highlight_color := Color.white
+@export var left := false: set = set_left_clicked
+@export var right := false: set = set_right_clicked
+@export var default_color := Color.DARK_GRAY
+@export var highlight_color := Color.WHITE
 
 
 func _ready() -> void:

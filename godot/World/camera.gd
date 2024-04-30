@@ -1,7 +1,7 @@
 # https://github.com/adamviola/simple-free-look-camera/blob/master/camera.gd
-extends Camera
+extends Camera3D
 
-export(float, 0.0, 1.0) var sensitivity = 0.25
+@export var sensitivity = 0.25 # (float, 0.0, 1.0)
 
 # Mouse state
 var _mouse_position = Vector2(0.0, 0.0)
@@ -33,16 +33,16 @@ func _input(event) -> void:
 	# Receives mouse button input
 	if event is InputEventMouseButton:
 		match event.button_index:
-			BUTTON_RIGHT: # Only allows rotation if right click down
+			MOUSE_BUTTON_RIGHT: # Only allows rotation if right click down
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if event.pressed else Input.MOUSE_MODE_VISIBLE)
-			BUTTON_WHEEL_UP: # Increases max velocity
+			MOUSE_BUTTON_WHEEL_UP: # Increases max velocity
 				_vel_multiplier = clamp(_vel_multiplier * 1.1, 0.2, 20)
-			BUTTON_WHEEL_DOWN: # Decereases max velocity
+			MOUSE_BUTTON_WHEEL_DOWN: # Decereases max velocity
 				_vel_multiplier = clamp(_vel_multiplier / 1.1, 0.2, 20)
 
 	# Receives key input
 	if event is InputEventKey:
-		match event.scancode:
+		match event.keycode:
 			KEY_W:
 				_w = event.pressed
 			KEY_S:
@@ -100,5 +100,5 @@ func _update_mouselook() -> void:
 		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
 		_total_pitch += pitch
 
-		rotate_y(deg2rad(-yaw))
-		rotate_object_local(Vector3(1,0,0), deg2rad(-pitch))
+		rotate_y(deg_to_rad(-yaw))
+		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))

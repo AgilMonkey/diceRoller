@@ -12,9 +12,9 @@ func apply_settings():
 		if "show_input_d" in setting:
 			var dice_toggle_name = setting.trim_prefix("show_input_").to_upper() + "Toggle"
 			var toggle = $Margin1/DiceTypes.get_node(dice_toggle_name)
-			toggle.pressed = SettingsData.get_setting(setting)
+			toggle.button_pressed = SettingsData.get_setting(setting)
 		if setting == "use_commands":
-			$Margin1/DiceTypes/CommandsToggle.pressed = SettingsData.get_setting(setting)
+			$Margin1/DiceTypes/CommandsToggle.button_pressed = SettingsData.get_setting(setting)
 		if "_color" in setting:
 			self.call("apply_" + setting, SettingsData.get_setting(setting))
 			match setting:
@@ -23,7 +23,7 @@ func apply_settings():
 				"number_color":
 					$"Margin2/DiceTheme/ColorPickers/Container2/Numbers".color = number_material.albedo_color
 				"border_color":
-					$"Margin2/DiceTheme/ColorPickers/Container3/Border".color = outline_shader.get_shader_param('border_color')
+					$"Margin2/DiceTheme/ColorPickers/Container3/Border".color = outline_shader.get_shader_parameter('border_color')
 
 
 func _on_CommandsToggle_toggled(button_pressed: bool) -> void:
@@ -82,7 +82,7 @@ func apply_number_color(color: Color) -> void:
 
 
 func apply_border_color(color: Color) -> void:
-	outline_shader.set_shader_param('border_color', color)
+	outline_shader.set_shader_parameter('border_color', color)
 
 
 

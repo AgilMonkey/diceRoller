@@ -1,13 +1,13 @@
-extends RigidBody
+extends RigidBody3D
 class_name Die, 'res://icon.png'
 
-onready var MESH: MeshInstance = $Mesh
-onready var BORDER: MeshInstance = $Mesh/Border
-onready var COLLISION: CollisionShape = $CollisionShape
+@onready var MESH: MeshInstance3D = $Mesh
+@onready var BORDER: MeshInstance3D = $Mesh/Border
+@onready var COLLISION: CollisionShape3D = $CollisionShape3D
 
-export var type: String
-export var number_of_sides := 0
-export var die_scale := 1.0
+@export var type: String
+@export var number_of_sides := 0
+@export var die_scale := 1.0
 
 var time := 0.0
 
@@ -18,8 +18,8 @@ var mesh_scale := Vector3(die_scale, die_scale, die_scale)
 var shrunk_mesh := mesh_scale - Vector3(0.1, 0.1, 0.1)
 var mesh_tool := MeshDataTool.new()
 
-var invalid := false setget set_invalid, get_invalid
-var locked := false setget set_locked
+var invalid := false: get = get_invalid, set = set_invalid
+var locked := false: set = set_locked
 var locked_material := preload('res://dice/materials/BodyLocked.material')
 
 var state: int
@@ -51,7 +51,7 @@ func _process(delta: float) -> void:
 		else:
 			set_invalid(false)
 		emit_signal('die_rolled', type, rolled, get_instance_id())
-	if translation.y < -4:
+	if position.y < -4:
 		respawn()
 
 
@@ -117,18 +117,18 @@ func get_height() -> float:
 func set_locked(is_locked: bool) -> void:
 	locked = is_locked
 	if is_locked:
-		MESH.set_surface_material(0, locked_material)
+		MESH.set_surface_override_material(0, locked_material)
 		if SettingsData.get_setting("allow_locked_move"):
 			self.axis_lock_angular_z = true
 			self.axis_lock_angular_x = true
 			self.axis_lock_angular_y = true
 		else:
-			self.mode = RigidBody.MODE_STATIC
+			self.mode = RigidBody3D.FREEZE_MODE_STATIC
 			self.sleeping = true
 	else:
-		MESH.set_surface_material(0, null)
-		if self.mode == RigidBody.MODE_STATIC:
-			self.mode = RigidBody.MODE_RIGID
+		MESH.set_surface_override_material(0, null)
+		if self.mode == RigidBody3D.FREEZE_MODE_STATIC:
+			self.mode = RigidBody3D.MODE_RIGID
 		self.axis_lock_angular_z = false
 		self.axis_lock_angular_x = false
 		self.axis_lock_angular_y = false

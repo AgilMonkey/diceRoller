@@ -4,7 +4,7 @@ render_mode unshaded;
 const float PI = 3.1415926535;
 
 uniform float spacing = 1.0;
-uniform vec4 color : hint_color = vec4( 0.0, 1.0, 0.3, 1.0 );
+uniform vec4 color : source_color = vec4( 0.0, 1.0, 0.3, 1.0 );
 uniform float line_width : hint_range( 0.0, 1.0 ) = 0.1;
 uniform float line_size = 0.05;
 

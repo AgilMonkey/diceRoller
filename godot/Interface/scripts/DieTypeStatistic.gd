@@ -8,8 +8,8 @@ var side_grid_label := preload('res://Interface/SideStatisticLabel.tscn')
 
 
 func _ready() -> void:
-	$Genral/Grid/FoldMargin/FoldContainer/FoldButton.pressed = $Sides.visible
-	$Genral/Grid/TypeContainer/TypeIcon.hint_tooltip += ' (%s)' % die_type_data.type
+	$Genral/Grid/FoldMargin/FoldContainer/FoldButton.button_pressed = $Sides.visible
+	$Genral/Grid/TypeContainer/TypeIcon.tooltip_text += ' (%s)' % die_type_data.type
 	update_labels()
 	set_icon()
 
@@ -21,7 +21,7 @@ func update_labels() -> void:
 
 
 func set_icon() -> void:
-	var icon: StreamTexture = load('res://Interface/Icons/%s.png' % die_type_data.type)
+	var icon: CompressedTexture2D = load('res://Interface/Icons/%s.png' % die_type_data.type)
 	if not icon:
 		push_warning('No icon texture could be found for %s' % die_type_data.type)
 		return
@@ -44,12 +44,12 @@ func update_side_labels(sides: Dictionary) -> void:
 		var type_label: Label
 
 		if not ($Sides/Grid.has_node(count_name) and $Sides/Grid.has_node(type_name)):
-			count_label = side_grid_label.instance()
+			count_label = side_grid_label.instantiate()
 			count_label.name = count_name
 			count_label.size_flags_horizontal = Label.SIZE_EXPAND_FILL
 			$Sides/Grid.add_child(count_label)
 
-			type_label = side_grid_label.instance()
+			type_label = side_grid_label.instantiate()
 			type_label.name = type_name
 			$Sides/Grid.add_child(type_label)
 		else:
@@ -66,8 +66,8 @@ func update_side_labels(sides: Dictionary) -> void:
 		var tooltip := '%s was rolled %s time%s' % [side, total, plural]
 		if total == 0:
 			tooltip = '%s was not rolled' % side
-		count_label.hint_tooltip = tooltip
-		type_label.hint_tooltip = tooltip
+		count_label.tooltip_text = tooltip
+		type_label.tooltip_text = tooltip
 
 		if not side_key % 2: # uneven
 			count_label.get_node('Background').visible = false

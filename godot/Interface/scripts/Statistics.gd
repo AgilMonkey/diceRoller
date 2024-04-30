@@ -1,6 +1,6 @@
 extends Control
 
-onready var type_data_container := $Margin/Container
+@onready var type_data_container := $Margin/Container
 
 
 func _on_RefreshRate_timeout() -> void:
@@ -15,7 +15,7 @@ func update_dice_statistics() -> void:
 
 		if type_data_container.has_node(type):
 			type_stat = type_data_container.get_node(type)
-			if type_data.instances_rolled.empty():
+			if type_data.instances_rolled.is_empty():
 				type_stat.queue_free()
 				#warning-ignore: return_value_discarded
 				DiceData.type_data.erase(type)
@@ -23,7 +23,7 @@ func update_dice_statistics() -> void:
 			type_stat.die_type_data = type_data
 			type_stat.update_labels()
 		else:
-			type_stat = preload('res://Interface/DieTypeStatistic.tscn').instance()
+			type_stat = preload('res://Interface/DieTypeStatistic.tscn').instantiate()
 			type_stat.die_type_data = type_data
 			type_stat.name = type_data.type
 			type_data_container.add_child(type_stat)
@@ -43,7 +43,7 @@ func sort_dice_statistics() -> void:
 	var offset := 2
 
 	var sorted_types: Array = DiceData.type_data.keys()
-	sorted_types.sort_custom(self, "sort_dice_types_ascending")
+	sorted_types.sort_custom(Callable(self, "sort_dice_types_ascending"))
 
 	for type_index in len(sorted_types):
 		var type_stat: Control = type_data_container.get_node(sorted_types[type_index])

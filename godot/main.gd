@@ -1,8 +1,8 @@
-extends Spatial
+extends Node3D
 
 
-export var version: String
-export(String, MULTILINE) var version_message: String
+@export var version: String
+@export var version_message: String # (String, MULTILINE)
 
 var global_area_scale := .2
 var scale_step_size := .02
@@ -91,9 +91,9 @@ func _on_Interface_camera_zoomed(_zoom_in: bool, pressed: bool) -> void:
 	zoom_in = _zoom_in
 	if pressed:
 		zoom()
-		$Camera/ZoomTicks.start()
+		$Camera3D/ZoomTicks.start()
 	else:
-		$Camera/ZoomTicks.stop()
+		$Camera3D/ZoomTicks.stop()
 
 
 func _on_ZoomTicks_timeout() -> void:
@@ -101,13 +101,13 @@ func _on_ZoomTicks_timeout() -> void:
 
 
 func zoom(zoom_factor: float = 1.0) -> void:
-	zoom_factor += $Camera.translation.length() / 200
-	var offset: Vector3 = $Camera.translation.normalized() * zoom_factor
+	zoom_factor += $Camera3D.position.length() / 200
+	var offset: Vector3 = $Camera3D.position.normalized() * zoom_factor
 	if zoom_in:
-		if $Camera.translation.length() > 4: # minimum zoom
-			$Camera.translation -= offset
+		if $Camera3D.position.length() > 4: # minimum zoom
+			$Camera3D.position -= offset
 	else:
-		if $Camera.translation.length() < 60: # maximum
-			$Camera.translation += offset
+		if $Camera3D.position.length() < 60: # maximum
+			$Camera3D.position += offset
 
 

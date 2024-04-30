@@ -1,6 +1,6 @@
 extends Node
 
-var type_data := {} setget update_die_types 	# DieTypeData[]
+var type_data := {}: set = update_die_types
 
 
 func _on_die_rolled(type: String, rolled_side: int, instance_id: int) -> void:

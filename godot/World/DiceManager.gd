@@ -1,7 +1,7 @@
-extends Spatial
+extends Node3D
 
-export var dice_type_strings: PoolStringArray
-export var dice_type_scenes: Dictionary
+@export var dice_type_strings: PackedStringArray
+@export var dice_type_scenes: Dictionary
 
 var dice_locked := false
 
@@ -17,16 +17,16 @@ func _on_Interface_add_die(type: String) -> void:
 func add_die(type: String) -> void:
 	assert(dice_type_scenes.has(type), "invalid dice type: " + str(type))
 
-	var new_die: Die = (dice_type_scenes[type] as PackedScene).instance()
+	var new_die: Die = (dice_type_scenes[type] as PackedScene).instantiate()
 	self.add_child(new_die)
 	new_die.gravity_scale = SettingsData.get_setting("gravity", 4)
 
 	# warning-ignore:return_value_discarded
-	new_die.connect("die_respawn", self, "add_die")
+	new_die.connect("die_respawn", Callable(self, "add_die"))
 	# warning-ignore:return_value_discarded
-	new_die.connect("die_died", $"/root/DiceData", "_on_die_died")
+	new_die.connect("die_died", Callable($"/root/DiceData", "_on_die_died"))
 	# warning-ignore:return_value_discarded
-	new_die.connect("die_rolled", $"/root/DiceData", "_on_die_rolled")
+	new_die.connect("die_rolled", Callable($"/root/DiceData", "_on_die_rolled"))
 	randomize_throw(new_die)
 
 
@@ -69,8 +69,8 @@ func _on_settings_changed(setting: String, value) -> void:
 
 
 func randomize_throw(die: Die) -> void:
-	var area_size_x: int = $"/root/main/Box/Floor/CollisionShape".get_shape().extents.x * $"/root/main".global_area_scale
-	var area_size_z: int = $"/root/main/Box/Floor/CollisionShape".get_shape().extents.z * $"/root/main".global_area_scale
+	var area_size_x: int = $"/root/main/Box/Floor/CollisionShape3D".get_shape().extents.x * $"/root/main".global_area_scale
+	var area_size_z: int = $"/root/main/Box/Floor/CollisionShape3D".get_shape().extents.z * $"/root/main".global_area_scale
 	var min_throw_height := ceil($"/root/main".global_area_scale*10)
 	die.global_transform.origin = Vector3(
 		random_value_in_range(0, area_size_x/2, true),

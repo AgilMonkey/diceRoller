@@ -1,17 +1,17 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Interface/Themes/statistics_theme.tres" type="Theme" id=1]
-[ext_resource path="res://Interface/Fonts/smaller_mono.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Interface/Fonts/smaller_mono.tres" type="FontFile" id=2]
 
 [node name="SideStatisticLabel" type="Label"]
-margin_right = 62.0
-margin_bottom = 34.0
-rect_min_size = Vector2( 40, 25 )
+offset_right = 62.0
+offset_bottom = 34.0
+custom_minimum_size = Vector2( 40, 25 )
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme = ExtResource( 1 )
-custom_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource( 2 )
 text = "txt"
 align = 2
 valign = 1

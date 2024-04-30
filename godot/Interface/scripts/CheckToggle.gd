@@ -1,22 +1,22 @@
-tool
+@tool
 extends PanelContainer
 class_name CheckToggle
 
-onready var button := $Button
-onready var label := $VBox/HBox/Label
-onready var handle_position := $VBox/HBox/Toggle/Background/HandlePosition
-onready var background := $VBox/HBox/Toggle/Background
-onready var background_state := $VBox/HBox/Toggle/Background/State
-onready var handle := $VBox/HBox/Toggle/Background/HandlePosition/Handle
-onready var handle_state := $VBox/HBox/Toggle/Background/HandlePosition/State
+@onready var button := $Button
+@onready var label := $VBox/HBox/Label
+@onready var handle_position := $VBox/HBox/Toggle/Background/HandlePosition
+@onready var background := $VBox/HBox/Toggle/Background
+@onready var background_state := $VBox/HBox/Toggle/Background/State
+@onready var handle := $VBox/HBox/Toggle/Background/HandlePosition/Handle
+@onready var handle_state := $VBox/HBox/Toggle/Background/HandlePosition/State
 
-export var label_text := '' setget set_label_text
-export var show_label_left := false setget set_show_label_left
-export var pressed := false setget set_pressed
-export var disabled := false setget set_disabled
+@export var label_text := '': set = set_label_text
+@export var show_label_left := false: set = set_show_label_left
+@export var pressed := false: set = set_pressed
+@export var disabled := false: set = set_disabled
 var hover := false
 var focus := false
-export var min_height := 20 setget set_min_height
+@export var min_height := 20: set = set_min_height
 
 var toggle_spacing := 10
 var toggle_aspect := 200
@@ -38,7 +38,7 @@ signal toggled(button_pressed)
 
 func _ready() -> void:
 	button.disabled = disabled
-	button.pressed = pressed
+	button.button_pressed = pressed
 
 	sync_theme()
 	set_label_text(label_text)
@@ -54,7 +54,7 @@ func _process(_delta: float) -> void:
 func set_min_height(height: int) -> void:
 	min_height = height
 	var size = Vector2(min_height * float(toggle_aspect)/100.0, min_height)
-	$VBox/HBox/Toggle.rect_min_size = size
+	$VBox/HBox/Toggle.custom_minimum_size = size
 
 
 func set_label_text(text: String) -> void:
@@ -76,7 +76,7 @@ func set_show_label_left(show_left: bool) -> void:
 func set_pressed(is_pressed: bool) -> void:
 	pressed = is_pressed
 	if button:
-		button.pressed = is_pressed
+		button.button_pressed = is_pressed
 	style_state()
 
 
@@ -146,13 +146,13 @@ func style_state() -> void:
 		button.mouse_default_cursor_shape = Control.CURSOR_ARROW
 
 
-	handle.add_stylebox_override('panel', handle_style)
-	background.add_stylebox_override('panel', background_style)
+	handle.add_theme_stylebox_override('panel', handle_style)
+	background.add_theme_stylebox_override('panel', background_style)
 	if has_state:
 		handle_state.show()
 		background_state.show()
-		handle_state.add_stylebox_override('panel', handle_state_style)
-		background_state.add_stylebox_override('panel', background_state_style)
+		handle_state.add_theme_stylebox_override('panel', handle_state_style)
+		background_state.add_theme_stylebox_override('panel', background_state_style)
 	else:
 		handle_state.hide()
 		background_state.hide()
@@ -160,7 +160,7 @@ func style_state() -> void:
 
 func sync_theme() -> void:
 	toggle_spacing = get_constant('toggle_spacing', 'CheckToggle')
-	$VBox/HBox.add_constant_override('separation', toggle_spacing)
+	$VBox/HBox.add_theme_constant_override('separation', toggle_spacing)
 	toggle_aspect = get_constant('toggle_aspect', 'CheckToggle')
 	$VBox/HBox/Toggle.ratio = float(toggle_aspect)/100.0
 

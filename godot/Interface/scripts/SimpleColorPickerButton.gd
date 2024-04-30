@@ -1,4 +1,4 @@
-tool
+@tool
 extends Button
 
 class_name SimpleColorPickerButton
@@ -6,8 +6,8 @@ class_name SimpleColorPickerButton
 signal popup_hide
 signal color_changed(color)
 
-export var default_color := Color.darkgray
-var color : Color setget set_colors
+@export var default_color := Color.DARK_GRAY
+var color : Color: set = set_colors
 
 var panel : PopupPanel
 var color_picker : ColorPicker
@@ -24,9 +24,9 @@ func _ready() -> void:
 	color_picker = simplify_color_picker(color_picker)
 
 	# warning-ignore:return_value_discarded
-	color_picker.connect("color_changed", self, "set_colors")
+	color_picker.connect("color_changed", Callable(self, "set_colors"))
 	# warning-ignore:return_value_discarded
-	panel.connect("popup_hide", self, "panel_closed")
+	panel.connect("popup_hide", Callable(self, "panel_closed"))
 
 	$ColorRect.color = color
 
@@ -48,11 +48,11 @@ func simplify_color_picker(picker: ColorPicker) -> ColorPicker:
 
 	# size the picker area down
 	var center_size: Control = picker.get_child(0).get_child(0)
-	center_size.rect_min_size = self.rect_size * 2.5
-	center_size.rect_size = Vector2(0, 0)
+	center_size.custom_minimum_size = self.size * 2.5
+	center_size.size = Vector2(0, 0)
 	var hue_size: Control = picker.get_child(0).get_child(1)
-	hue_size.rect_min_size.x = self.rect_size.x * 0.4
-	hue_size.rect_size.x = 0
+	hue_size.custom_minimum_size.x = self.size.x * 0.4
+	hue_size.size.x = 0
 
 	return picker
 
@@ -63,10 +63,10 @@ func _on_SimpleColorPickerButton_pressed() -> void:
 
 
 func show_panel() -> void:
-	var button_center_bottom := Vector2(self.rect_size.x/2, self.rect_size.y) + self.rect_global_position
-	var panel_center_top := Vector2(self.panel.rect_size.x/2, 0)
-	var offset := Vector2(0, self.rect_size.y/4)
-	panel.rect_position = button_center_bottom - panel_center_top + offset
+	var button_center_bottom := Vector2(self.size.x/2, self.size.y) + self.global_position
+	var panel_center_top := Vector2(self.panel.size.x/2, 0)
+	var offset := Vector2(0, self.size.y/4)
+	panel.position = button_center_bottom - panel_center_top + offset
 	panel.popup()
 
 
@@ -76,7 +76,7 @@ func panel_closed() -> void:
 
 
 func set_colors(_color: Color) -> void:
-	if not Engine.editor_hint:
+	if not Engine.is_editor_hint():
 		emit_signal("color_changed", _color)
 	$ColorRect.color = _color
 	color = _color

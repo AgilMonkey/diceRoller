@@ -5,11 +5,11 @@
 [ext_resource path="res://dice/d6.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Interface/Scripts/MultipleDicePreview.gd" type="Script" id=4]
 
-[node name="Spatial" type="Spatial"]
+[node name="Node3D" type="Node3D"]
 script = ExtResource( 4 )
 
 [node name="d20" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.676614, 0.284786, -0.679037, -0.112768, 0.951379, 0.28664, 0.727652, -0.117371, 0.675831, -0.418905, 2.72977, 1.25231 )
+transform = Transform3D( 0.676614, 0.284786, -0.679037, -0.112768, 0.951379, 0.28664, 0.727652, -0.117371, 0.675831, -0.418905, 2.72977, 1.25231 )
 collision_layer = 0
 collision_mask = 0
 input_ray_pickable = false
@@ -17,18 +17,18 @@ mode = 1
 sleeping = true
 
 [node name="d12" parent="." instance=ExtResource( 2 )]
-transform = Transform( 0.370987, 0.758456, 0.535831, -0.0677041, 0.597562, -0.798959, -0.926167, 0.260125, 0.273038, 0.76211, 1.17628, 3.01371 )
+transform = Transform3D( 0.370987, 0.758456, 0.535831, -0.0677041, 0.597562, -0.798959, -0.926167, 0.260125, 0.273038, 0.76211, 1.17628, 3.01371 )
 mode = 1
 sleeping = true
 
 [node name="d6" parent="." instance=ExtResource( 3 )]
-transform = Transform( 0.549472, -0.758374, 0.350641, 0.421828, 0.61406, 0.667077, -0.721209, -0.218629, 0.657312, -0.476795, 0.396661, 5.24776 )
+transform = Transform3D( 0.549472, -0.758374, 0.350641, 0.421828, 0.61406, 0.667077, -0.721209, -0.218629, 0.657312, -0.476795, 0.396661, 5.24776 )
 mode = 1
 sleeping = true
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 8.5, 5 )
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 8.5, 5 )
 fov = 58.8627
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.862709, 0.115201, 0.492404, -0.492404, 0.413176, 0.766044, -0.115201, -0.903335, 0.413176, 0, 5, 0 )
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D( 0.862709, 0.115201, 0.492404, -0.492404, 0.413176, 0.766044, -0.115201, -0.903335, 0.413176, 0, 5, 0 )
