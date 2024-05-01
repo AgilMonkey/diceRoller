@@ -1,5 +1,6 @@
+@icon('res://icon.png')
 extends RigidBody3D
-class_name Die, 'res://icon.png'
+class_name Die
 
 @onready var MESH: MeshInstance3D = $Mesh
 @onready var BORDER: MeshInstance3D = $Mesh/Border

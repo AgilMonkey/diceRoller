@@ -140,7 +140,7 @@ func handle_key_event(key_event: InputEventKey):
 
 func throw_die_in_drag_direction(die: Die):
 	var throw := (mouse_position - die.position) * Vector3(100, 0, 100)
-	var throw_clamped :=  clamp(throw.length(), 0, max_throw_speed) * throw.normalized()
+	var throw_clamped =  clamp(throw.length(), 0, max_throw_speed) * throw.normalized()
 	die.linear_velocity = throw_clamped
 	die.angular_velocity = - throw.cross(Vector3.UP)
 
